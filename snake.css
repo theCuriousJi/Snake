@@ -1,0 +1,40 @@
+h1 {
+  text-align: center;
+}
+
+.row {
+
+  list-style-type: none;
+  /*display: table;*/
+  /*background-color: orange;*/
+  /*width: 50px;
+  height: 10px;
+  float: left;
+  background-color: green;*/
+}
+
+.space {
+  float:left;
+  width: 35px;
+  height: 35px;
+  background-color: lavender;
+  margin: 1px;
+}
+
+
+pre {
+  width: 650px;
+  height: 300px;
+  margin: auto;
+}
+
+.snake{
+  background-color: green;
+}
+.empty{
+  background-color: lavender;
+}
+
+.apple{
+  background-color: red;   
+}
