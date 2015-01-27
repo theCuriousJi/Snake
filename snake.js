@@ -5,7 +5,8 @@
     // Snake Class
     Snake = Snakes.Snake = function (board) {
       this.dir = "S";
-      this.segments = [[0,0], [1,0], [2,0], [3,0], [4,0], [5,0]];
+      this.segments = [[0,0], [1,0], [2,0], [3,0]];
+      this.growTurns = 0
     }
 
     Snake.DIRS = { "N": [-1, 0], "S": [1,0],
@@ -13,25 +14,36 @@
 
     // Adds a link to end of the Snake's body with the latest turn
     Snake.prototype.move = function () {
+      // debugger;
       var lastSpot = this.segments[this.segments.length-1];
       var newSpot = [lastSpot[0]+Snake.DIRS[this.dir][0],
       lastSpot[1]+Snake.DIRS[this.dir][1]];
-      this.segments.push(newSpot);
-      this.segments.shift();
-
+      if (this.growTurns > 0) {
+        this.segments.push(newSpot);
+        this.growTurns -= 1;
+      } else {
+        this.segments.push(newSpot);
+        this.segments.shift();
+      }
     };
 
     Snake.prototype.nextSpot = function () {
       var lastSpot = this.segments[this.segments.length-1];
       var newSpot = [lastSpot[0]+Snake.DIRS[this.dir][0],
       lastSpot[1]+Snake.DIRS[this.dir][1]];
-      return newSpot
+      return newSpot;
+    }
 
+    Snake.prototype.head = function () {
+      this.segments[this.segments.length -1];
     }
 
     // changes the dir ivar of snake
     Snake.prototype.turn = function (newDir) {
-      if(this.oppositeDir(this.dir) != newDir) {
+      var lastSpot = this.segments[this.segments.length-1];
+      var newSpot = lastSpot[0]+Snake.DIRS[newDir][0]
+      if(lastSpot[0]+Snake.DIRS[newDir][0] != this.segments[this.segments.length -2][0] &&
+        lastSpot[1]+Snake.DIRS[newDir][1] != this.segments[this.segments.length -2][1]) {
         this.dir = newDir;
       }
     };
@@ -67,13 +79,13 @@
     // ------------------------------------------------
     var Apple = Snakes.Apple = function (board) {
       this.board = board;
-      this.pos = this.appear();
+      this.pos = [6,0]
+      // this.appear();
 
     }
 
     Apple.prototype.appear = function () {
       var notPlaced = true
-      // debugger;
       while(notPlaced) {
         var row = Math.floor(Math.random() * Snakes.Util.dim());
         var col = Math.floor(Math.random() * Snakes.Util.dim());
@@ -92,8 +104,23 @@
       this.snake = new Snakes.Snake(this);
       this.apple = new Snakes.Apple(this);
       this.dims = [Snakes.Util.dim(),Snakes.Util.dim()];
+      this.score = 0;
 
     };
+
+    Board.prototype.move = function () {
+      var that = this;
+      if(this.snake.nextSpot()[0] === this.apple.pos[0] &&
+        this.snake.nextSpot()[1] === this.apple.pos[1]) {
+          // that.grid[that.snake.nextSpot[0]][that.snake.nextSpot[1]] = 'S';
+          that.snake.growTurns += 2;
+          this.snake.segments.push(this.snake.nextSpot());
+          that.apple.pos = that.apple.appear();
+          this.score += 10
+        } else {
+          this.snake.move();
+        };
+    }
 
     Board.prototype.fillGrid = function () {
       var grid = [];
@@ -105,14 +132,13 @@
           grid[j].push(".");
         };
       };
-
+      grid[this.apple.pos[0]][this.apple.pos[1]] = "A";
       this.snake.segments.forEach( function(segment) {
         grid[segment[0]][segment[1]] = "S";
       })
-      grid[this.apple.pos[0]][this.apple.pos[1]] = "A";
 
       return grid;
-    }
+    };
 
     Board.prototype.outOfBounds = function (pos) {
       if(pos[0] >= this.dims[0] || pos[0] < 0 ||

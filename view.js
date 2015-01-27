@@ -14,19 +14,21 @@
       this.setup();
       var that = this;
       $('body').on('keydown', that.handleKeyEvent.bind(that));
-      this.intervalID = window.setInterval( this.step.bind(this), 200);
+      this.intervalID = window.setInterval( this.step.bind(this), 150);
     }
 
     View.prototype.handleKeyEvent = function (event) {
        this.board.snake.turn(Snakes.MOVES[event.keyCode]);
     }
     View.prototype.step = function () {
+      console.log(this.board.snake.segments)
       if(this.board.snake.occupies(this.board.snake.nextSpot()) ||
       this.board.outOfBounds(this.board.snake.nextSpot())) {
         alert("game over");
         clearInterval(this.intervalID);
       }
-      this.board.snake.move();
+      // debugger;
+      this.board.move();
       this.render();
     }
 
@@ -34,13 +36,16 @@
     View.prototype.setup = function () {
       var grid = this.board.fillGrid();
       for (var i = 0; i < grid.length; i++) {
-        $ul = $("<ul class='row'>")
+        $ul = $("<ul class='row' 'clearfix'>")
         this.$el.append($ul);
         for(var j = 0; j < grid.length; j++) {
           $li = $('<li class="space">')
           $ul.append($li)
         };
       };
+
+      $h2 = $('<h2>').html('Score: ' + this.board.score);
+      $('h1').append($h2);
       // this.board.snake.segments.forEach(function() {
       //   {
       //     $li = $('<li class="space">')
@@ -51,9 +56,10 @@
     }
 
     View.prototype.render = function () {
+      // debugger;
       var grid = this.board.fillGrid();
       var that = this;
-
+      // debugger;
       // for (var i = 0; i < grid.length; i++) {
       //   for(var j = 0; j < grid.length; j++) {
       //     var row = i + 1;
@@ -80,7 +86,7 @@
           }
           else if (grid[i][j] === "S"){
             var x = that.$el.find("ul:nth-child(" + row + ") > li:nth-child("+col+")");
-            x.removeClass('empty').addClass('snake');
+            x.removeClass('empty').removeClass('apple').addClass('snake');
           }
           else if (grid[i][j] === "A"){
             var x = that.$el.find("ul:nth-child(" + row + ") > li:nth-child("+col+")");
@@ -88,6 +94,10 @@
           }
         }
       }
+
+      $h2 = $('body').find('h2')
+      $h2.html('Score: ' + this.board.score);
+
 
 
     }
