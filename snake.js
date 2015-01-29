@@ -5,7 +5,7 @@
     // Snake Class
     Snake = Snakes.Snake = function (board) {
       this.dir = "S";
-      this.segments = [[0,0], [1,0], [2,0], [3,0]];
+      this.segments = [[0,0], [1,0], [2,0]];
       this.growTurns = 0
     }
 
@@ -35,7 +35,7 @@
     }
 
     Snake.prototype.head = function () {
-      this.segments[this.segments.length -1];
+      return this.segments[this.segments.length -1];
     }
 
     // changes the dir ivar of snake
@@ -108,12 +108,21 @@
 
     };
 
+    Board.prototype.won = function () {
+      var won = false;
+      var totalSpots = Snakes.Util.dim() * Snakes.Util.dim()
+      if(this.snake.segments.length === totalSpots) {
+        won = true;
+      }
+      return won;
+    }
+
     Board.prototype.move = function () {
       var that = this;
       if(this.snake.nextSpot()[0] === this.apple.pos[0] &&
         this.snake.nextSpot()[1] === this.apple.pos[1]) {
           // that.grid[that.snake.nextSpot[0]][that.snake.nextSpot[1]] = 'S';
-          that.snake.growTurns += 2;
+          that.snake.growTurns += 3;
           this.snake.segments.push(this.snake.nextSpot());
           that.apple.pos = that.apple.appear();
           this.score += 10
@@ -164,6 +173,6 @@
 
     Snakes.Util = {};
     Snakes.Util.dim = function () {
-      return 16;
+      return 35;
     };
 })();

@@ -13,23 +13,78 @@
       this.board = new Snakes.Board();
       this.setup();
       var that = this;
+      this.paused = true;
+      this.gameOver = false;
+      this.render();
+      that.intervalID = null;
+
+      $('body').find('.gameover').html('Press Space to begin')
+      // that.intervalID = window.setInterval( that.step.bind(that), 1);
+      // this.pauseStart();
+      // $('body').on('keydown', that.startGame.bind(that));
       $('body').on('keydown', that.handleKeyEvent.bind(that));
-      this.intervalID = window.setInterval( this.step.bind(this), 150);
     }
 
     View.prototype.handleKeyEvent = function (event) {
-       this.board.snake.turn(Snakes.MOVES[event.keyCode]);
+
+      if(this.gameOver === false) {
+        if(event.keyCode === 32) {
+          this.pauseStart();
+        }
+         else {
+           this.board.snake.turn(Snakes.MOVES[event.keyCode]);
+         }
+      } else {
+        if(event.keyCode === 32) {
+          debugger;
+          this.board = new Snakes.Board();
+          this.render();
+          this.paused = true;
+          this.gameOver = false;
+          this.board.snake.turn('S');
+          this.pauseStart();
+          $('body').find('.gameover').empty();
+          // this.render();
+        }
+      }
+
     }
+
+    View.prototype.pauseStart = function () {
+      // debugger;
+      var that = this
+      if(this.paused === true) {
+        $('body').find('.gameover').empty()
+        that.intervalID = window.setInterval( that.step.bind(that), 1);
+        that.paused = false;
+      }
+      else {
+        clearInterval(that.intervalID);
+        that.paused = true;
+        $('body').find('.gameover').html('Paused <br> Press Space to Continue');
+      }
+    }
+
+
+
+
     View.prototype.step = function () {
-      console.log(this.board.snake.segments)
-      if(this.board.snake.occupies(this.board.snake.nextSpot()) ||
-      this.board.outOfBounds(this.board.snake.nextSpot())) {
-        alert("game over");
+      var that = this;
+      if(this.board.won()) {
+        $('body').find('.gameover').html('You Win <br>  Press Space to play again')
         clearInterval(this.intervalID);
+        this.gameOver = true;
+      } else if(this.board.snake.occupies(this.board.snake.nextSpot()) ||
+      this.board.outOfBounds(this.board.snake.nextSpot())) {
+        $('body').find('.gameover').html('Game Over  <br>  Press Space to play again')
+        clearInterval(this.intervalID);
+        this.gameOver = true;
+      } else {
+        this.board.move();
+        this.render();
       }
       // debugger;
-      this.board.move();
-      this.render();
+
     }
 
 
@@ -44,8 +99,11 @@
         };
       };
 
-      $h2 = $('<h2>').html('Score: ' + this.board.score);
-      $('h1').append($h2);
+      var $h2 = $('<h2>').html('Score: ' + this.board.score);
+
+
+      var $gameOver = $('<h3 class="gameover">');
+      this.$el.append($gameOver);
       // this.board.snake.segments.forEach(function() {
       //   {
       //     $li = $('<li class="space">')
@@ -59,22 +117,6 @@
       // debugger;
       var grid = this.board.fillGrid();
       var that = this;
-      // debugger;
-      // for (var i = 0; i < grid.length; i++) {
-      //   for(var j = 0; j < grid.length; j++) {
-      //     var row = i + 1;
-      //     var col = j + 1;
-      //     var space = that.$el.find("ul:nth-child(" + row + ") > li:nth-child("+col+")");
-      //     space.addClass('empty');
-      //   };
-      // };
-      //
-      // this.board.snake.segments.forEach(function(el) {
-      //   var row = el[0] + 1;
-      //   var col = el[1] + 1;
-      //   var x = that.$el.find("ul:nth-child(" + row + ") > li:nth-child("+col+")");
-      //   x.removeClass('empty').addClass('board.snake');
-      // })
 
       for (var i = 0; i < grid.length; i++) {
         for(var j = 0; j < grid.length; j++) {
@@ -82,7 +124,7 @@
           var col = j + 1;
           if (grid[i][j] === ".") {
             var space = that.$el.find("ul:nth-child(" + row + ") > li:nth-child("+col+")");
-            space.addClass('empty');
+            space.removeClass('apple').addClass('empty');
           }
           else if (grid[i][j] === "S"){
             var x = that.$el.find("ul:nth-child(" + row + ") > li:nth-child("+col+")");

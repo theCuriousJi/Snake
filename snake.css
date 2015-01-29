@@ -1,10 +1,20 @@
+body {
+  font-family: sans-seriff;
+  background-color: #666699;
+  font-weight: bold;
+}
+
 h1 {
   text-align: center;
-  font-family: sans-serif;
+
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 h2 {
   text-align: center;
-  font-family: sans-serif;
   font-size: 24px;
 }
 
@@ -24,17 +34,18 @@ h2 {
 
 .space {
   float:left;
-  width: 35px;
-  height: 35px;
+  width: 16px;
+  height: 16px;
   background-color: lavender;
-  margin: 1px;
+  margin: 0.5px;
 }
 
 
-pre {
+div.board {
+  border: 5px solid #333300;
   position: relative;
-  width: 650px;
-  height: 650px;
+  width: 595px;
+  height: 595px;
   margin: auto;
   /*border: solid 10px black;*/
 }
@@ -42,10 +53,22 @@ pre {
 .snake{
   background-color: green;
 }
+.gameover {
+  color: #6600FF;
+  position: absolute;
+  display: block;
+  text-align: center;
+  margin-left: 100px;
+  margin-top: 250px;
+  font-size: 40px;
+
+}
+
+
 .empty{
   background-color: lavender;
 }
 
 .apple{
-  background-color: red;
+  content: url(http://www.cidermillplayhouse.com/images/1213/ChairAndBugImages/apple.jpg);
 }
