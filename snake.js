@@ -122,7 +122,7 @@
       if(this.snake.nextSpot()[0] === this.apple.pos[0] &&
         this.snake.nextSpot()[1] === this.apple.pos[1]) {
           // that.grid[that.snake.nextSpot[0]][that.snake.nextSpot[1]] = 'S';
-          that.snake.growTurns += 3;
+          that.snake.growTurns += 2;
           this.snake.segments.push(this.snake.nextSpot());
           that.apple.pos = that.apple.appear();
           this.score += 10
@@ -173,6 +173,6 @@
 
     Snakes.Util = {};
     Snakes.Util.dim = function () {
-      return 35;
+      return 24;
     };
 })();
