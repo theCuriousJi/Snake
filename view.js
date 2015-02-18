@@ -18,9 +18,9 @@
       this.gameOver = false;
       this.render();
       that.intervalID = null;
-      this.intro = new Howl({urls: ["/Users/G/desktop/snake/snake_intro_mp3.mp3"],
+      this.intro = new Howl({urls: ["snake_intro_mp3.mp3"],
       loop:true});
-      this.main = new Howl({urls: ["/Users/G/desktop/snake/snake_mp3.mp3"],
+      this.main = new Howl({urls: ["snake_mp3.mp3"],
       loop:true});
 
       this.intro.play();
