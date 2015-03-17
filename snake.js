@@ -14,7 +14,6 @@
 
     // Adds a link to end of the Snake's body with the latest turn
     Snake.prototype.move = function () {
-      // debugger;
       var lastSpot = this.segments[this.segments.length-1];
       var newSpot = [lastSpot[0]+Snake.DIRS[this.dir][0],
       lastSpot[1]+Snake.DIRS[this.dir][1]];

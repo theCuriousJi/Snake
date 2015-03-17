@@ -35,12 +35,7 @@ float: right}
 .row {
 
   list-style-type: none;
-  /*display: table;*/
-  /*background-color: orange;*/
-  /*width: 50px;
 
-  float: left;
-  background-color: green;*/
 }
 
 .space {
@@ -75,7 +70,13 @@ div.board {
   font-size: 40px;
   margin-left: 50%;
   transform: translateX(-50%);
-
+}
+.sound{
+  text-align: center;
+  content: url('./img/unmute.svg');
+  margin-left:50%;
+  transform: translateX(-50%);
+  float: none
 }
 
 
@@ -84,9 +85,7 @@ div.board {
 }
 
 .apple{
-  /*content: url(http://www.cidermillplayhouse.com/images/1213/ChairAndBugImages/apple.jpg);
-  */
-  content: url(AMIfv96lIOQMXeZDdX5_8TILLufHHZDLm8ArYYo_3DqX16I0QdM-OPtRexYXRIgjPvvyhGNLBs8aMxWInCfzMhf0dvgHvGWG7q0yV-n-T-yrfZ8xHIegltTmyQGAUeEX0hQdjokr7URd_vFitpEMwF5H-umVl0TzZBuK0bL9SylwDipQo-ZZ5lE.svg);
+  content: url('./img/AMIfv96lIOQMXeZDdX5_8TILLufHHZDLm8ArYYo_3DqX16I0QdM-OPtRexYXRIgjPvvyhGNLBs8aMxWInCfzMhf0dvgHvGWG7q0yV-n-T-yrfZ8xHIegltTmyQGAUeEX0hQdjokr7URd_vFitpEMwF5H-umVl0TzZBuK0bL9SylwDipQo-ZZ5lE.svg');s
 }
 
 .colored{

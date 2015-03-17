@@ -9,7 +9,7 @@
 
     var View = Snakes.View = function ($el) {
       this.$el = $el;
-      // this.board.snake = new Snakes.Snake();
+      this.muted = false;
       this.board = new Snakes.Board();
       this.setup();
       var that = this;
@@ -17,18 +17,37 @@
       this.firstPlay = true;
       this.gameOver = false;
       this.render();
-      that.intervalID = null;
+      this.intervalID = null;
       this.intro = new Howl({urls: ["snake_intro_mp3.mp3"],
       loop:true});
       this.main = new Howl({urls: ["snake_mp3.mp3"],
       loop:true});
-
+      this.muteButton = $('.sound')
       this.intro.play();
       $('body').find('.gameover').html('Press Space to begin')
-      // that.intervalID = window.setInterval( that.step.bind(that), 1);
-      // this.pauseStart();
-      // $('body').on('keydown', that.startGame.bind(that));
+
       $('body').on('keydown', that.handleKeyEvent.bind(that));
+      $('.sound').on('click', that.mute.bind(that));
+
+      // Howler.mute()
+
+
+    }
+
+    View.prototype.mute = function (event) {
+      event.preventDefault();
+      if(this.muted == true) {
+        this.muted = false;
+        Howler.unmute();
+        this.muteButton.css('content', "url('./img/unmute.svg')")
+
+      }
+      else {
+        this.muted = true;
+        Howler.mute();
+        this.muteButton.css('content', "url('./img/mute.svg')")
+      }
+
 
     }
 
@@ -43,7 +62,6 @@
          }
       } else {
         if(event.keyCode === 32) {
-          debugger;
           this.board = new Snakes.Board();
           this.render();
           this.paused = true;
@@ -58,7 +76,6 @@
     }
 
     View.prototype.pauseStart = function () {
-      // debugger;
       var that = this
       if(this.paused === true) {
         if(this.firstPlay) {
@@ -107,6 +124,12 @@
 
     }
 
+    View.prototype.volume = function () {
+      if(this.muted) {
+
+      }
+    }
+
 
     View.prototype.setup = function () {
       var grid = this.board.fillGrid();
@@ -120,6 +143,7 @@
       };
 
       var $h2 = $('<h2>').html('Score: ' + this.board.score);
+      var $sound = $('.sound').html('Click to Mute / Unmute: <i class="fa fa-trash-o"></i>');
 
 
       var $gameOver = $('<h3 class="gameover">');
@@ -136,7 +160,6 @@
     }
 
     View.prototype.render = function () {
-      // debugger;
       var grid = this.board.fillGrid();
       var that = this;
 
