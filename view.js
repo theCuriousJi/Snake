@@ -52,6 +52,10 @@
     }
 
     View.prototype.handleKeyEvent = function (event) {
+      var arr = [32, 37,38,39,40]
+      if(arr.indexOf(event.keyCode) > -1) {
+          event.preventDefault();
+        }
 
       if(this.gameOver === false) {
         if(event.keyCode === 32) {
